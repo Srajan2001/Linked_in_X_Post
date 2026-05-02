@@ -1,242 +1,88 @@
-# 🤖 LinkedIn AI Agent (Human‑in‑the‑Loop)
-
-An AI-powered LinkedIn content agent that generates **long, high‑quality, personalized LinkedIn posts** based on user profile and trending topics — with **manual approval** for safety and control.
-
----
-
-## 🚀 Project Overview
-
-This project demonstrates how an **AI Agent** can assist professionals by generating meaningful LinkedIn posts automatically, while still keeping a **human in control** before publishing.
-
-The system:
-
-* Reads user profile data (role, skills, experience)
-* Selects a relevant tech topic
-* Uses a Large Language Model (LLM) to generate a long LinkedIn post
-* Asks for **manual approval** before finalizing the content
-
-This mirrors **real-world AI usage in companies**, where AI assists but humans make the final decision.
-
----
-
-## 🧠 Key Concepts Used
-
-* AI Agents
-* Large Language Models (LLMs)
-* Prompt Engineering
-* Human‑in‑the‑Loop Design
-* API Integration
-* Clean Architecture
-* Environment Variable Security
-
----
-
-## 🏗️ System Architecture
-
-```
-profile.json  →  profile_agent
-                    ↓
-            trend_agent
-                    ↓
-          post_writer_agent (AI)
-                    ↓
-           approval_agent
-                    ↓
-           approved_post.txt
-```
-
----
-
-## 📂 Project Structure
-
-```
-linkedin_ai_agent/
-│
-├── agents/
-│   ├── profile_agent.py
-│   ├── trend_agent.py
-│   ├── post_writer_agent.py
-│   └── approval_agent.py
-│
-├── memory/
-│   └── profile.json
-│
-├── .env
-├── main.py
-└── approved_post.txt
-```
-
----
-
-## 📄 File‑by‑File Explanation
-
-### 1️⃣ `memory/profile.json`
-
-Stores user‑specific data used to personalize AI output.
-
-Example:
-
-```json
-{
-  "name": "Abhinav",
-  "role": "Software Tester",
-  "skills": ["Automation Testing", "API Testing", "AI Tools"],
-  "experience": "1+ years",
-  "tone": "professional + friendly"
-}
-```
-
----
-
-### 2️⃣ `agents/profile_agent.py`
-
-Loads profile data from JSON.
-
-Purpose:
-
-* Keeps data handling separate from AI logic
-* Improves maintainability
-
----
-
-### 3️⃣ `agents/trend_agent.py`
-
-Selects a trending tech topic.
-
-Currently:
-
-* Uses mocked topics for demo
-
-Future enhancement:
-
-* Can be replaced with live APIs (blogs, news, GitHub trends)
-
----
-
-### 4️⃣ `agents/post_writer_agent.py` (Core AI Agent)
-
-Responsibilities:
-
-* Builds a structured prompt
-* Calls the Groq LLM API
-* Generates long‑form LinkedIn posts
-* Ensures dynamic, non‑repetitive output
-
-Key features:
-
-* Prompt engineering for length & tone
-* Controlled generation parameters
-* Reliable and fast inference using Groq
-
----
-
-### 5️⃣ `agents/approval_agent.py`
-
-Implements **human approval**.
-
-Flow:
-
-* Displays generated post
-* Asks user to approve or reject
-* Saves approved content to `approved_post.txt`
-
-This ensures ethical and safe AI usage.
-
----
-
-### 6️⃣ `main.py`
-
-Acts as the **orchestrator**.
-
-Controls execution flow:
-
-1. Load profile
-2. Fetch topic
-3. Generate post
-4. Ask for approval
-
----
-
-### 7️⃣ `.env`
-
-Stores sensitive credentials securely.
-
-Example:
-
-```env
-GROQ_API_KEY=your_api_key_here
-```
-
-Secrets are never hardcoded in source files.
-
----
-
-## ⚙️ Tech Stack
-
-* Python 3
-* Groq LLM API (LLaMA 3.1)
-* python‑dotenv
-* Clean modular architecture
-
----
-
-## ▶️ How to Run
-
-1. Clone the repository
-2. Create a `.env` file with your Groq API key
-3. Install dependencies
-
-   ```bash
-   python -m pip install groq python-dotenv
-   ```
-4. Run the agent
-
-   ```bash
-   python main.py
-   ```
-5. Approve the generated LinkedIn post
-
----
-
-## 🔐 Why Manual Approval?
-
-* Prevents spam or unsafe content
-* Avoids LinkedIn policy violations
-* Reflects real corporate AI workflows
-
-This design choice follows **responsible AI principles**.
-
----
-
-## 🧪 Sample Output
-
-* Long, well‑structured LinkedIn post
-* Real‑world testing examples
-* Clear learning points
-* Call‑to‑action question
-
----
-
-## 🎯 Resume / Interview Description
-
-> Built an AI-powered LinkedIn content agent using Python and Groq LLMs with human‑in‑the‑loop approval, profile‑based personalization, and structured prompt engineering.
-
----
-
-## 🔮 Future Enhancements
-
-* UI with preview & approve button
-* Scheduler for daily post reminders
-* Multi‑LLM support (Groq, Gemini, Local AI)
-* Live trend fetching
-* Hinglish content mode
-
----
-
-## ✅ Conclusion
-
-This project demonstrates **real‑world AI engineering**, not just API usage. It focuses on reliability, safety, personalization, and clean design — exactly how AI systems are built in production environments.
-
----
-
-💡 *AI should assist humans, not replace them — this project is built on that principle.*
+# Multi-Agent Generative AI Content Pipeline
+
+## Project Overview
+This repository contains a multi-agent orchestration system designed to automate the lifecycle of professional content creation. The system integrates live web research, stylistic memory retrieval, agentic self-reflection, and multi-modal asset generation into a single Streamlit-based dashboard.
+
+## System Architecture
+The application utilizes a modular agent-based architecture to separate concerns and optimize for specific tasks:
+
+1. Trend Agent: Handles real-time search queries and news extraction.
+2. Profile Agent: Processes user identity and strategic content parameters.
+3. Memory Agent: Manages a local Vector Database (ChromaDB) for stylistic RAG.
+4. Writer Agent: Executes core drafting with dynamic model switching (GPT-4o vs GPT-4o-mini).
+5. Critic Agent: Performs automated quality assurance and provides feedback loops.
+6. Router Agent: Converts approved drafts into platform-specific formats (JSON).
+7. Image Agent: Generates DALL-E style prompts and renders custom post graphics.
+
+## Technical Stack
+- Language: Python 3.10 or higher
+- Orchestration: OpenAI API
+- Database: ChromaDB (Vector Store)
+- UI Framework: Streamlit
+- Search Interface: DuckDuckGo Search API
+- Visualization: Pillow, Requests
+
+## Project Structure
+- agents/: Specialized Python scripts for each AI agent.
+- memory/: Local directory for ChromaDB persistence.
+- outputs/: Directory for finalized content artifacts.
+- app.py: Central Streamlit application and state management logic.
+- requirements.txt: Python dependency manifest.
+- .env: Environment variables (not included in repository).
+
+## Installation
+
+1. Clone the repository to your local machine:
+   git clone https://github.com/Srajan2001/Linked_in_X_Post.git
+
+2. Navigate into the project directory:
+   cd Linked_in_X_Post
+
+3. Create a isolated virtual environment:
+   python -m venv venv
+
+4. Activate the virtual environment:
+   # On Windows (PowerShell)
+   .\venv\Scripts\activate
+   # On Linux/Mac
+   source venv/bin/activate
+
+5. Install all required Python packages:
+   pip install -r requirements.txt
+
+## Configuration
+
+1. Create a file named .env in the root directory.
+2. Add your OpenAI API credentials to the file:
+   OPENAI_API_KEY=your_actual_api_key_here
+
+## How to Run the Application
+
+To start the local web server and launch the dashboard, execute the following command:
+
+``streamlit run app.py``
+
+Once the command is executed, a local URL (typically http://localhost:8501) will be displayed in the terminal and will automatically open in your default web browser.
+
+## Operational Workflow
+
+1. User Configuration: Input your name, role, and core skills in the sidebar.
+2. Topic Definition: Enter the subject for your content and select the desired tone and audience.
+3. Research Phase (Optional): 
+   - Toggle "Fetch Live News" on to perform web scraping.
+   - Curate the context by selecting up to 5 articles from the presented list.
+4. Content Generation:
+   - Click "Generate Post". 
+   - If Research was toggled off, the system routes the task to GPT-4o with a 700-token limit.
+   - If Research was toggled on, the system uses GPT-4o-mini for cost-effective synthesis.
+5. Review and Edit: 
+   - Modify the draft manually in the text area.
+   - Use AI Quick Action buttons for immediate stylistic adjustments (Shorter, Technical, or CTA).
+6. Final Distribution:
+   - Click "Approve & Route".
+   - The system saves the post to local memory for future style cloning.
+   - Use the provided Web Intent links to copy text directly to LinkedIn and X (Twitter).
+   - Download the AI-generated graphic for visual attachment.
+
+## Security and Best Practices
+The .env file and the memory/ directory are excluded from version control via .gitignore. Ensure that API keys are never hardcoded into the agent files.
